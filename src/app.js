@@ -18,6 +18,7 @@ const app = express();
 app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type'],
+    
 }));
 
 app.use(express.json());
@@ -32,11 +33,8 @@ app.use('/api', rutasEmpleados);
 app.use('/api', rutasDetallesVentas);
 app.use('/api', rutasDetallesCompras);
 
-
-
-
-
-
+app.use(express.json({ limit: '10mb' })); // Aumenta a 10 MB
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 
 // Manejo de rutas no encontradas
