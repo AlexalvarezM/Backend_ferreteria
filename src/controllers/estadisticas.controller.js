@@ -29,7 +29,8 @@ export const totalVentasPorMes = async (req, res) => {
   try {
     const { startYear, endYear } = req.query;
     let query = `
-      SELECT t.mes, ROUND(SUM(hv.total_linea), 1) AS total_ventas
+      SELECT t.mes, 
+      ROUND(SUM(hv.total_linea), 1) AS total_ventas
       FROM Hecho_Ventas hv
       JOIN Dim_Tiempo t ON hv.fecha = t.fecha
     `;
@@ -44,10 +45,7 @@ export const totalVentasPorMes = async (req, res) => {
 
     const [result] = await pool2.query(query, queryParams);
 
-    res.status(200).json({
-      mensaje: result.length === 0 ? 'No se encontraron estadísticas de ventas por mes.' : 'Estadísticas de ventas por mes obtenidas correctamente.',
-      data: result,
-    });
+   res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching monthly sales:', error);
     res.status(500).json({
@@ -67,10 +65,7 @@ export const totalVentasPorAño = async (req, res) => {
       ORDER BY t.año
     `);
 
-    res.status(200).json({
-      mensaje: result.length === 0 ? 'No se encontraron estadísticas de ventas por año.' : 'Estadísticas de ventas por año obtenidas correctamente.',
-      data: result,
-    });
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching yearly sales:', error);
     res.status(500).json({
@@ -90,10 +85,7 @@ export const totalVentasPorEmpleado = async (req, res) => {
       ORDER BY total_ventas DESC
     `);
 
-    res.status(200).json({
-      mensaje: result.length === 0 ? 'No se encontraron estadísticas de ventas por empleado.' : 'Estadísticas de ventas por empleado obtenidas correctamente.',
-      data: result,
-    });
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching sales by employee:', error);
     res.status(500).json({
@@ -113,10 +105,7 @@ export const cantidadVentasPorEmpleado = async (req, res) => {
       ORDER BY cantidad_ventas DESC
     `);
 
-    res.status(200).json({
-      mensaje: result.length === 0 ? 'No se encontraron estadísticas de cantidad de ventas por empleado.' : 'Estadísticas de cantidad de ventas por empleado obtenidas correctamente.',
-      data: result,
-    });
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching sale count by employee:', error);
     res.status(500).json({
@@ -147,10 +136,7 @@ export const totalVentasPorEmpleadoYMes = async (req, res) => {
 
     const [result] = await pool2.query(query, queryParams);
 
-    res.status(200).json({
-      mensaje: result.length === 0 ? 'No se encontraron estadísticas de ventas por empleado y mes.' : 'Estadísticas de ventas por empleado y mes obtenidas correctamente.',
-      data: result,
-    });
+   res.status(200).json(result);
   } catch (error) {
     console.error('Error fetching sales by employee and month:', error);
     res.status(500).json({
